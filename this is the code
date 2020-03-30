@@ -1,0 +1,143 @@
+client.on('ready', () => {
+          console.log(client.user.username + "ses connecter");
+        });
+
+        client.on('message', message => {
+          if(message.author.bot) {
+          if(message.embeds.length === 1 && message.embeds [0].description.startsWith('React')) {
+            message.react('📨')
+            .then(msgReaction => console.log('Reacted,'))
+            .catch(err => console.log(err));
+           }
+            
+          };
+          if(message.content.toLowerCase() === prefix + "message") {
+            message.delete();
+            const embed = new discord.RichEmbed();
+            embed.setAuthor(client.user.username, client.user.displayAvatarURL);
+            embed.setDescription('Réagits aux messages pour ouvrir un ticket!');
+            embed.setColor('#F39237');
+            message.channel.send(embed).then(async m => {
+              m.react('📨');
+            });
+          }
+          if(message.content.toLowerCase() === prefix + 'ticket' && message.channel.id === "673293141134278704") { 
+            /*message.delete();
+            if(userTickets.has(message.author.id) ||
+             message.guild.channels.forEach(channel => channel.name.toLowerCase() === 
+             message.author.username + 's-ticket'))  {
+               message.author.send("tu a deja un channels pourquoi en faire un autre?!");
+           } 
+           else {
+
+            
+            
+            message.delete()
+          let guild = message.guild;
+          guild.createChannel(`${message.author.username}s-ticket`, {
+            type: 'text',
+            permissionOverwrites: [
+              {
+                allow: 'VIEW_CHANNEL',
+                id: message.author.id
+              },
+              {
+                deny:"VIEW_CHANNEL",
+                id: guild.id 
+
+            },
+            {
+              allow: 'VIEW_CHANNEL',
+              id: "673479056431382529"
+            }
+            ]
+          
+        }).then (ch => {
+          console.log ("cree " + ch.name + "channel.");
+          userTickets.set(message.author.id, ch.id);
+        })
+           }*/  
+      }
+          else if(message.content.toLowerCase() === prefix + 'close'){
+                if(userTickets.has(message.author.id) || 
+                message.guild.channels.forEach(channel =>
+                   channel.name.toLowerCase() === message.author.username + 's-ticket')) {
+                  if(message.channel.id === userTickets.get(message.author.id)) {
+                    message.channel.delete('fermeture du ticket')
+                    .then(channel => {
+                      console.log(channel.name + "deleter")
+                      userTickets.delete(message.author.id);
+                    })
+                  }
+                }
+                  if(message.guild.channels.forEach(channel => channel.name.toLowerCase() ===
+                  message.author.username + 's-ticket')) {
+                    message.guild.forEach(channel => {
+                      if(channel.name.toLowerCase() === message.author.username + 's-ticket') {
+                        channel.delete().then(ch => console.log('channel deleter par' + ch.id))
+                        .catch(err => console.log(err));
+                      }
+                    });
+                  }
+              }
+        });
+client.on("messageReactionAdd", payload => {
+if(payload.t === 'MESSAGE_REACTION_ADD') {
+  if(payload.d.emoji.name != "incoming_envelope")
+  return;
+console.log("User a reagits au message");
+if(payload.d.message_id === '693940459743215707') {
+  let channel = client.channels.get(payload.d.channel_id) // tout les channels quil peut voirs voirs
+if(channel.message.has(payload.d.message_id)) {
+    return;
+
+} else {
+  channel.fetchMessage(payload.d.message_id)
+  .then(msg => {
+    let reaction = msg.reaction.get('📨')
+    let user = client.users.get(payload.d.user_id);
+    client.emit('messageReactionAdd', reaction, user);
+  })
+};
+}
+}});
+
+
+        client.on('messageReactionAdd', (reaction,user) => {
+          message.delete();
+          if(userTickets.has(user.id) ||
+           reaction.message.guild.channels.forEach(channel => channel.name.toLowerCase() === 
+           user.username + 's-ticket'))  {
+             message.author.send("tu a deja un channels pourquoi en faire un autre?!");
+         } 
+         else {
+
+          
+          
+          message.delete()
+        let guild = reaction.message.guild;
+        guild.createChannel(`${user.username}s-ticket`, {
+          type: 'text',
+          permissionOverwrites: [
+            {
+              allow: 'VIEW_CHANNEL',
+              id: user.id
+            },
+            {
+              deny:"VIEW_CHANNEL",
+              id: guild.id 
+
+          },
+          {
+            allow: 'VIEW_CHANNEL',
+            id: "673479056431382529"
+          }
+          ]
+        
+      }).then (ch => {
+        console.log ("cree " + ch.name + "channel.");
+        userTickets.set(user.id, ch.id);
+      })
+         }
+
+        })
