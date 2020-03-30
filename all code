@@ -1,8 +1,8 @@
 const discord = require("discord.js");
 const client = new discord.Client();
 const bot = new discord.Client();
-const token2 = "NjY3MDcwNzY4NzIyNDc3MDY3.XoBJww.YU01zkqWFADXFoGYQaVMLQdf580"//token invalide cheh
-const token1 = "NjcyMTcxMDU4MjIwMTA1NzI4.XoBJrw.DnSizfgDI2Xsxksvpbd63gr_p_c"//token invalide cheh
+const token2 = ""//token invalide cheh
+const token1 = ""//token invalide cheh
 client.login(token2)
 bot.login(token1)
 const prefix = (',')
